@@ -22,7 +22,15 @@ module.exports = {
       { extensions: ['.js', '.jsx', 'ts', 'tsx'] },
     ],
     'import/extensions': ['off'],
-    'import/no-unresolved': ['error', { caseSensitive: false }],
     'prettier/prettier': 'error',
+  },
+  settings: {
+    'import/resolver': {
+      'babel-module': {},
+      node: {
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+      },
+      typescript: {},
+    },
   },
 };

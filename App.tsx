@@ -1,8 +1,8 @@
 import React from 'react';
-import { SafeAreaView } from 'react-native';
+import Router from './src/Router';
 
 const App = function App() {
-  return <SafeAreaView />;
+  return <Router />;
 };
 
 export default App;
