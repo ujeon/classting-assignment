@@ -23,6 +23,8 @@ module.exports = {
     ],
     'import/extensions': ['off'],
     'prettier/prettier': 'error',
+    'no-unused-vars': 'off',
+    '@typescript-eslint/no-unused-vars': 'error',
   },
   settings: {
     'import/resolver': {
