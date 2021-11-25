@@ -33,7 +33,7 @@ export const ButtonShadow = styled.View`
 export const Title = styled.Text`
   font-size: 17px;
   font-weight: bold;
-  color: #303030;
+  color: ${colors.darkGrey};
   text-align: center;
   flex: 1;
 `;
