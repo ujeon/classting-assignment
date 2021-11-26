@@ -51,7 +51,7 @@ export const ButtonShadow = styled.View<ButtonProps>`
   background-color: ${({ type }) => handleButtonShadowColorType(type)};
   border-radius: 12px;
   position: absolute;
-  top: 6;
+  top: 6px;
 `;
 
 export const Title = styled.Text`

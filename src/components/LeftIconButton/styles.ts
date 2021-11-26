@@ -27,7 +27,7 @@ export const ButtonShadow = styled.View`
   border-radius: 12px;
   position: absolute;
   background-color: ${colors.shamrock};
-  top: 6;
+  top: 6px;
 `;
 
 export const Title = styled.Text`
