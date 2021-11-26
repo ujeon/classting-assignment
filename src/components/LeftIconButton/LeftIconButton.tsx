@@ -1,8 +1,6 @@
 import React from 'react';
 import { ImageSourcePropType } from 'react-native';
-import {
- Button, ButtonContainer, ButtonShadow, Icon, Title 
-} from './styles';
+import { Button, ButtonContainer, ButtonShadow, Icon, Title } from './styles';
 
 interface LeftIconButtonProps {
   source: ImageSourcePropType;
