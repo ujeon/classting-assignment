@@ -34,8 +34,9 @@ export const ButtonContainer = styled.TouchableOpacity`
 `;
 
 export const Button = styled.View<ButtonProps>`
-  width: 200px;
-  height: 50px;
+  width: 100%;
+  min-width: 200px;
+  height: 40px;
   justify-content: center;
   align-items: center;
   background-color: ${({ type }) => handleButtonColorType(type)};
@@ -44,8 +45,9 @@ export const Button = styled.View<ButtonProps>`
 `;
 
 export const ButtonShadow = styled.View<ButtonProps>`
-  width: 200px;
-  height: 50px;
+  width: 100%;
+  min-width: 200px;
+  height: 40px;
   justify-content: center;
   align-items: center;
   background-color: ${({ type }) => handleButtonShadowColorType(type)};

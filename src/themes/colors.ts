@@ -12,6 +12,8 @@ const colors = {
   lightSkyBlue: '#83D7FE',
   lightCyan: '#DDF4FF',
   dodgerBlue: '#3CAFF5',
+  palePink: '#FCDEE0',
+  australianMint: '#D6FEB8',
 };
 
 export default colors;
