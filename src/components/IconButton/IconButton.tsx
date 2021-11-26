@@ -6,7 +6,7 @@ interface IconButtonProps {
   source: ImageSourcePropType;
 }
 
-const IconButton: React.FC<IconButtonProps> = function IconButton({ source }) {
+const IconButton: React.FC<IconButtonProps> = ({ source }) => {
   return (
     <Button>
       <Icon source={source} />
