@@ -5,11 +5,12 @@ import { Button, ButtonContainer, ButtonShadow, Icon, Title } from './styles';
 interface LeftIconButtonProps {
   source: ImageSourcePropType;
   title: string;
+  onPress: () => void;
 }
 
-const LeftIconButton: React.FC<LeftIconButtonProps> = ({ source, title }) => {
+const LeftIconButton: React.FC<LeftIconButtonProps> = ({ source, title, onPress }) => {
   return (
-    <ButtonContainer>
+    <ButtonContainer onPress={onPress}>
       <Button>
         <Icon source={source} />
         <Title>{title}</Title>
