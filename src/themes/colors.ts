@@ -6,6 +6,8 @@ const colors = {
   olive: '#58A701',
   shamrock: '#41C997',
   darkGrey: '#303030',
+  gainsboro: '#E5E5E5',
+  yellowGreen: '#79D634',
 };
 
 export default colors;
