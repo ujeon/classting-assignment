@@ -11,10 +11,7 @@ interface ButtonProps {
   type: ButtonType;
 }
 
-const RectangleButton: React.FC<ButtonProps> = function RectangleButton({
-  title,
-  type,
-}) {
+const RectangleButton: React.FC<ButtonProps> = ({ title, type }) => {
   return (
     <ButtonContainer>
       <Button type={type}>

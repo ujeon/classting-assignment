@@ -9,6 +9,9 @@ const colors = {
   darkGrey2: '#AFAFAF',
   gainsboro: '#E5E5E5',
   yellowGreen: '#79D634',
+  lightSkyBlue: '#83D7FE',
+  lightCyan: '#DDF4FF',
+  dodgerBlue: '#3CAFF5',
 };
 
 export default colors;

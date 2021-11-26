@@ -7,10 +7,7 @@ interface LeftIconButtonProps {
   title: string;
 }
 
-const LeftIconButton: React.FC<LeftIconButtonProps> = function LeftIconButton({
-  source,
-  title,
-}) {
+const LeftIconButton: React.FC<LeftIconButtonProps> = ({ source, title }) => {
   return (
     <ButtonContainer>
       <Button>
