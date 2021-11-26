@@ -5,7 +5,8 @@ const colors = {
   kellyGreen: '#58CC04',
   olive: '#58A701',
   shamrock: '#41C997',
-  darkGrey: '#303030',
+  darkGrey: '#4A4A4A',
+  darkGrey2: '#AFAFAF',
   gainsboro: '#E5E5E5',
   yellowGreen: '#79D634',
 };
