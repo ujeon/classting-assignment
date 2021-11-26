@@ -25,6 +25,8 @@ module.exports = {
     'prettier/prettier': 'error',
     'no-unused-vars': 'off',
     '@typescript-eslint/no-unused-vars': 'error',
+    'object-curly-newline': 'off',
+    'no-shadow': 'off',
   },
   settings: {
     'import/resolver': {
