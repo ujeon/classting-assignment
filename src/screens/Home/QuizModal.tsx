@@ -7,8 +7,8 @@ import ProgressBar from '@components/ProgressBar';
 import images from '@themes/images';
 import IconButton from '@components/IconButton';
 import NavigationBar from '@components/NavigationBar';
-import { AnswersList, QuestionTitle, Container, Category } from './styles';
-// import SelectResultContainer from '@components/SelectResultContainer';
+import { AnswersList, QuestionTitle, QuizModalContainer, Category, DimmedLayer } from './styles';
+import AnswerResultModal from './AnswerResultModal';
 
 const sampleData: Array<Question> = [
   {
@@ -54,6 +54,7 @@ const QuizModal: React.FC<QuizModalProps> = ({ visible, hideModal }) => {
   const [questionList, setQuestionList] = useState<Array<Question>>(sampleData);
   const [currQuestionIndex, setCurrQuestionIndex] = useState(0);
   const [resultModalVisible, setResultModalVisible] = useState(false);
+  const [isCorrectAnswer, setIsCorrectAnswer] = useState(false);
 
   const updateSelectedOption = useCallback(
     (selectedOption: string) => {
@@ -74,9 +75,7 @@ const QuizModal: React.FC<QuizModalProps> = ({ visible, hideModal }) => {
 
   const compareCorrectAnswer = useCallback(
     (selectedOption: string) => {
-      console.log({
-        isCorrectAnswer: questionList[currQuestionIndex].correctAnswer === selectedOption,
-      });
+      setIsCorrectAnswer(questionList[currQuestionIndex].correctAnswer === selectedOption);
     },
     [questionList, currQuestionIndex],
   );
@@ -108,6 +107,10 @@ const QuizModal: React.FC<QuizModalProps> = ({ visible, hideModal }) => {
     hideModal();
   }, [hideModal]);
 
+  const handleContinueButtonPress = useCallback(() => {
+    setResultModalVisible(false);
+  }, []);
+
   const $cancelButton = useMemo(
     () => <IconButton source={images.iconCancel} onPress={handleBackButton} />,
     [handleBackButton],
@@ -122,7 +125,7 @@ const QuizModal: React.FC<QuizModalProps> = ({ visible, hideModal }) => {
     <Modal animationType="slide" visible={visible}>
       <SafeAreaView>
         <NavigationBar leftComponent={$cancelButton} centerComponent={$progressBar} />
-        <Container>
+        <QuizModalContainer>
           <Category>{questionList[currQuestionIndex].category}</Category>
           <QuestionTitle>{questionList[currQuestionIndex].question}</QuestionTitle>
           <AnswersList>
@@ -131,10 +134,15 @@ const QuizModal: React.FC<QuizModalProps> = ({ visible, hideModal }) => {
               renderItem={renderMultipleChoiceOptions}
             />
           </AnswersList>
-          {/* <SelectResultContainer isCorrect={false} correctAnswer="123123213" />
-        <SelectResultContainer isCorrect={true} correctAnswer="123123213" /> */}
-        </Container>
+        </QuizModalContainer>
+        {resultModalVisible && <DimmedLayer />}
       </SafeAreaView>
+      <AnswerResultModal
+        visible={resultModalVisible}
+        isCorrect={isCorrectAnswer}
+        correctAnswer={questionList[currQuestionIndex].correctAnswer}
+        onPress={handleContinueButtonPress}
+      />
     </Modal>
   );
 };

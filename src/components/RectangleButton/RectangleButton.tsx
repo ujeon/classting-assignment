@@ -9,11 +9,12 @@ export enum ButtonType {
 interface ButtonProps {
   title: string;
   type: ButtonType;
+  onPress: () => void;
 }
 
-const RectangleButton: React.FC<ButtonProps> = ({ title, type }) => {
+const RectangleButton: React.FC<ButtonProps> = ({ title, type, onPress }) => {
   return (
-    <ButtonContainer>
+    <ButtonContainer onPress={onPress}>
       <Button type={type}>
         <Title>{title}</Title>
       </Button>

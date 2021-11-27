@@ -6,6 +6,7 @@ const colors = {
   olive: '#58A701',
   shamrock: '#41C997',
   darkGrey: '#4A4A4A',
+  darkGreyDimmed: '#4A4A4A50',
   darkGrey2: '#AFAFAF',
   gainsboro: '#E5E5E5',
   yellowGreen: '#79D634',
