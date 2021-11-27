@@ -2,10 +2,8 @@ import React, { useEffect, useRef, useCallback } from 'react';
 import { Animated } from 'react-native';
 import { Progress, ProgressContainer, Reflection, LeftPadding, RightPadding } from './styles';
 
-type ProgressIndex = 0 | 0.1 | 0.2 | 0.3 | 0.4 | 0.5 | 0.6 | 0.7 | 0.8 | 0.9 | 1;
-
 interface ProgressBarProps {
-  progress: ProgressIndex;
+  progress: number;
 }
 
 const ProgressBar: React.FC<ProgressBarProps> = ({ progress = 0 }) => {
@@ -15,7 +13,7 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ progress = 0 }) => {
   const changeWidth = useCallback(() => {
     Animated.timing(progressAnimation, {
       useNativeDriver: true,
-      toValue: { x: 300 * progress, y: 0 },
+      toValue: { x: 250 * progress, y: 0 },
       duration: 1500,
     }).start();
 

@@ -3,24 +3,24 @@ import styled from 'styled-components/native';
 
 export const ProgressContainer = styled.View`
   overflow: hidden;
-  width: 300px;
+  width: 250px;
   height: 20px;
   background-color: ${colors.gainsboro};
   border-radius: 25px;
 `;
 
 export const Progress = styled.View`
-  width: 300px;
+  width: 250px;
   height: 20px;
   position: absolute;
-  left: -300px;
+  left: -250px;
   background-color: ${colors.kellyGreen};
   border-radius: 25px;
   overflow: hidden;
 `;
 
 export const Reflection = styled.View`
-  width: 300px;
+  width: 250px;
   height: 5px;
   background-color: ${colors.yellowGreen};
   border-radius: 30px;

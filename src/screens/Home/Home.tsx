@@ -1,26 +1,24 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { View } from 'react-native';
 import images from '@themes/images';
 import LeftIconButton from '@components/LeftIconButton';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from 'Router';
+import QuizModal from './QuizModal';
 
-interface NavigationProps {
-  navigation: NativeStackNavigationProp<RootStackParamList, 'Home'>;
-}
+const Home = () => {
+  const [quizModalVisible, setQuizModalVisible] = useState(false);
 
-const Home = ({ navigation }: NavigationProps) => {
-  const handleStartQuizButton = useCallback(() => {
-    navigation.navigate('Quiz');
-  }, [navigation]);
+  const openQuizModal = useCallback(() => {
+    setQuizModalVisible((prev) => !prev);
+  }, []);
+
+  const hideQuizModal = useCallback(() => {
+    setQuizModalVisible((prev) => !prev);
+  }, []);
 
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <LeftIconButton
-        source={images.iconPencil}
-        title="퀴즈 시작"
-        onPress={handleStartQuizButton}
-      />
+      <LeftIconButton source={images.iconPencil} title="퀴즈 시작" onPress={openQuizModal} />
+      <QuizModal visible={quizModalVisible} hideModal={hideQuizModal}></QuizModal>
     </View>
   );
 };

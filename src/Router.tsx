@@ -3,7 +3,6 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Home from '@screens/Home';
 import Settings from '@screens/Settings';
-import Quiz from '@screens/Quiz';
 
 export type RootStackParamList = {
   Home: undefined;
@@ -23,9 +22,6 @@ const Router = () => {
       >
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Settings" component={Settings} />
-        <Stack.Group screenOptions={{ presentation: 'modal' }}>
-          <Stack.Screen name="Quiz" component={Quiz} />
-        </Stack.Group>
       </Stack.Navigator>
     </NavigationContainer>
   );
