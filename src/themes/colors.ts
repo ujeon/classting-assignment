@@ -14,6 +14,7 @@ const colors = {
   dodgerBlue: '#3CAFF5',
   palePink: '#FCDEE0',
   australianMint: '#D6FEB8',
+  heliotrope: '#CF86FF',
 };
 
 export default colors;
