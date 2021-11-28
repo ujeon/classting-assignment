@@ -15,6 +15,10 @@ const Home = () => {
     setQuizModalVisible((prev) => !prev);
   }, []);
 
+  const handleQuizEnd = useCallback(() => {
+    setQuizModalVisible((prev) => !prev);
+  }, []);
+
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <LeftIconButton source={images.iconPencil} title="퀴즈 시작" onPress={openQuizModal} />
