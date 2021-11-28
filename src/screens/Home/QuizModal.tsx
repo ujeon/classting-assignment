@@ -20,10 +20,24 @@ const sampleData: Array<Question> = [
     correctAnswer: 'Albania',
     incorrectAnswers: ['Croatia', 'Serbia', 'Macedonia'],
     answers: [
-      { option: 'Albania', isCorrect: true, isSelected: false },
-      { option: 'Croatia', isCorrect: false, isSelected: false },
-      { option: 'Serbia', isCorrect: false, isSelected: false },
-      { option: 'Macedonia', isCorrect: false, isSelected: false },
+      { option: 'Albania', isSelected: false },
+      { option: 'Croatia', isSelected: false },
+      { option: 'Serbia', isSelected: false },
+      { option: 'Macedonia', isSelected: false },
+    ],
+  },
+  {
+    id: '2352345234234',
+    category: 'Entertainment: Music',
+    type: 'boolean',
+    difficulty: 'medium',
+    question:
+      'Norwegian producer Kygo released a remix of the song &quot;Sexual Healing&quot; by Marvin Gaye.',
+    correctAnswer: 'True',
+    incorrectAnswers: ['False'],
+    answers: [
+      { option: 'True', isSelected: false },
+      { option: 'False', isSelected: false },
     ],
   },
 ];
@@ -46,7 +60,6 @@ interface Question {
 
 interface Answer {
   option: string;
-  isCorrect: boolean;
   isSelected: boolean;
 }
 
@@ -59,7 +72,7 @@ const QuizModal: React.FC<QuizModalProps> = ({ visible, hideModal }) => {
   const updateSelectedOption = useCallback(
     (selectedOption: string) => {
       setQuestionList((prev) => {
-        const prevQuestion = { ...prev };
+        const prevQuestion = [...prev];
         const { answers } = prevQuestion[currQuestionIndex];
         const updatedAnswers = _map(answers, (answer) => {
           const updatedAnswer = { ...answer };
@@ -91,7 +104,6 @@ const QuizModal: React.FC<QuizModalProps> = ({ visible, hideModal }) => {
 
   const renderMultipleChoiceOptions = useCallback(
     ({ item }: { item: Answer }) => {
-      console.log({ item });
       return (
         <MultipleChoiceOption
           selected={item.isSelected}
@@ -108,8 +120,13 @@ const QuizModal: React.FC<QuizModalProps> = ({ visible, hideModal }) => {
   }, [hideModal]);
 
   const handleContinueButtonPress = useCallback(() => {
-    setResultModalVisible(false);
-  }, []);
+    if (currQuestionIndex < questionList.length - 1) {
+      setResultModalVisible(false);
+      setCurrQuestionIndex((prev) => prev + 1);
+    } else {
+      hideModal();
+    }
+  }, [currQuestionIndex, questionList, hideModal]);
 
   const $cancelButton = useMemo(
     () => <IconButton source={images.iconCancel} onPress={handleBackButton} />,
