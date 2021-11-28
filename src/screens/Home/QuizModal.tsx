@@ -1,7 +1,7 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import { Modal, FlatList } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import _map from 'lodash/map';
 import MultipleChoiceOption from '@components/MultipleChoiceOption';
 import ProgressBar from '@components/ProgressBar';
 import images from '@themes/images';
@@ -9,88 +9,39 @@ import IconButton from '@components/IconButton';
 import NavigationBar from '@components/NavigationBar';
 import { AnswersList, QuestionTitle, QuizModalContainer, Category, DimmedLayer } from './styles';
 import AnswerResultModal from './AnswerResultModal';
-
-const sampleData: Array<Question> = [
-  {
-    id: '12412421434',
-    category: 'Geography',
-    type: 'multiple',
-    difficulty: 'hard',
-    question: 'Which country was NOT formerly part of Yugoslavia?',
-    correctAnswer: 'Albania',
-    incorrectAnswers: ['Croatia', 'Serbia', 'Macedonia'],
-    answers: [
-      { option: 'Albania', isSelected: false },
-      { option: 'Croatia', isSelected: false },
-      { option: 'Serbia', isSelected: false },
-      { option: 'Macedonia', isSelected: false },
-    ],
-  },
-  {
-    id: '2352345234234',
-    category: 'Entertainment: Music',
-    type: 'boolean',
-    difficulty: 'medium',
-    question:
-      'Norwegian producer Kygo released a remix of the song &quot;Sexual Healing&quot; by Marvin Gaye.',
-    correctAnswer: 'True',
-    incorrectAnswers: ['False'],
-    answers: [
-      { option: 'True', isSelected: false },
-      { option: 'False', isSelected: false },
-    ],
-  },
-];
+import { RootState } from '@store/index';
+import Quiz from '@store/modules/quiz';
+import { Answer } from '@store/modules/quiz/reducer';
 
 interface QuizModalProps {
   visible: boolean;
   hideModal: () => void;
 }
 
-interface Question {
-  id: string;
-  category: string;
-  type: string;
-  difficulty: string;
-  question: string;
-  correctAnswer: string;
-  incorrectAnswers: Array<string>;
-  answers: Array<Answer>;
-}
-
-interface Answer {
-  option: string;
-  isSelected: boolean;
-}
-
 const QuizModal: React.FC<QuizModalProps> = ({ visible, hideModal }) => {
-  const [questionList, setQuestionList] = useState<Array<Question>>(sampleData);
-  const [currQuestionIndex, setCurrQuestionIndex] = useState(0);
   const [resultModalVisible, setResultModalVisible] = useState(false);
   const [isCorrectAnswer, setIsCorrectAnswer] = useState(false);
 
+  const dispatch = useDispatch();
+  const { questions, currQuestionIndex } = useSelector((store: RootState) => store.quiz);
+
   const updateSelectedOption = useCallback(
     (selectedOption: string) => {
-      setQuestionList((prev) => {
-        const prevQuestion = [...prev];
-        const { answers } = prevQuestion[currQuestionIndex];
-        const updatedAnswers = _map(answers, (answer) => {
-          const updatedAnswer = { ...answer };
-          updatedAnswer.isSelected = updatedAnswer.option === selectedOption;
-          return updatedAnswer;
-        });
-        prevQuestion[currQuestionIndex].answers = updatedAnswers;
-        return prevQuestion;
-      });
+      dispatch(
+        Quiz.actions.updateSelectedAnswer({
+          questionIndex: currQuestionIndex,
+          selectedOption: selectedOption,
+        }),
+      );
     },
-    [setQuestionList, currQuestionIndex],
+    [dispatch, currQuestionIndex],
   );
 
   const compareCorrectAnswer = useCallback(
     (selectedOption: string) => {
-      setIsCorrectAnswer(questionList[currQuestionIndex].correctAnswer === selectedOption);
+      setIsCorrectAnswer(questions[currQuestionIndex].correct_answer === selectedOption);
     },
-    [questionList, currQuestionIndex],
+    [questions, currQuestionIndex],
   );
 
   const handleOptionPress = useCallback(
@@ -120,13 +71,15 @@ const QuizModal: React.FC<QuizModalProps> = ({ visible, hideModal }) => {
   }, [hideModal]);
 
   const handleContinueButtonPress = useCallback(() => {
-    if (currQuestionIndex < questionList.length - 1) {
+    if (currQuestionIndex < questions.length - 1) {
       setResultModalVisible(false);
-      setCurrQuestionIndex((prev) => prev + 1);
+      dispatch(Quiz.actions.updateCurrQuestionIndex({ index: currQuestionIndex + 1 }));
     } else {
       hideModal();
+      setResultModalVisible(false);
+      setIsCorrectAnswer(false);
     }
-  }, [currQuestionIndex, questionList, hideModal]);
+  }, [currQuestionIndex, questions, hideModal, dispatch]);
 
   const $cancelButton = useMemo(
     () => <IconButton source={images.iconCancel} onPress={handleBackButton} />,
@@ -143,11 +96,11 @@ const QuizModal: React.FC<QuizModalProps> = ({ visible, hideModal }) => {
       <SafeAreaView>
         <NavigationBar leftComponent={$cancelButton} centerComponent={$progressBar} />
         <QuizModalContainer>
-          <Category>{questionList[currQuestionIndex].category}</Category>
-          <QuestionTitle>{questionList[currQuestionIndex].question}</QuestionTitle>
+          <Category>{questions[currQuestionIndex]?.category}</Category>
+          <QuestionTitle>{questions[currQuestionIndex]?.question}</QuestionTitle>
           <AnswersList>
             <FlatList
-              data={questionList[currQuestionIndex].answers}
+              data={questions[currQuestionIndex]?.answers}
               renderItem={renderMultipleChoiceOptions}
             />
           </AnswersList>
@@ -157,7 +110,7 @@ const QuizModal: React.FC<QuizModalProps> = ({ visible, hideModal }) => {
       <AnswerResultModal
         visible={resultModalVisible}
         isCorrect={isCorrectAnswer}
-        correctAnswer={questionList[currQuestionIndex].correctAnswer}
+        correctAnswer={questions[currQuestionIndex]?.correct_answer}
         onPress={handleContinueButtonPress}
       />
     </Modal>
