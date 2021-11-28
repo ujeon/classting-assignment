@@ -80,6 +80,8 @@ const QuizModal: React.FC<QuizModalProps> = ({ visible, hideModal, moveQuizResul
       setResultModalVisible(false);
       setIsCorrectAnswer(false);
       moveQuizResultScreen();
+      dispatch(Quiz.actions.setEndTime(new Date().getTime()));
+      dispatch(Quiz.actions.countCorrectInCorrectAnswers(null));
     }
   }, [currQuestionIndex, questions, hideModal, dispatch, moveQuizResultScreen]);
 
