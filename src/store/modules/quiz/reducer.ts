@@ -24,6 +24,7 @@ export interface Question {
   correct_answer: string;
   incorrect_answers: string[];
   answers?: Answer[];
+  isCorrect?: boolean | null;
 }
 
 interface SelectedAnswer {
@@ -69,6 +70,7 @@ const reducer = createCustomReducer(state, actions)
       return updatedAnswer;
     });
     questions[questionIndex].answers = updatedAnswers;
+    questions[questionIndex].isCorrect = questions[questionIndex].correct_answer === selectedOption;
     return { ...state, questions };
   })
   .handleAction(updateCurrQuestionIndex, (state, action) => {
