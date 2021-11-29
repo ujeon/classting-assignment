@@ -6,6 +6,8 @@ const handleButtonColorType = (color: ButtonType) => {
   switch (color) {
     case ButtonType.primary:
       return colors.kellyGreen;
+    case ButtonType.secondary:
+      return colors.dodgerBlue;
     case ButtonType.danger:
       return colors.sunsetOrange;
     default:
@@ -17,6 +19,8 @@ const handleButtonShadowColorType = (color: ButtonType) => {
   switch (color) {
     case ButtonType.primary:
       return colors.olive;
+    case ButtonType.secondary:
+      return colors.summerSky;
     case ButtonType.danger:
       return colors.alizarin;
     default:
