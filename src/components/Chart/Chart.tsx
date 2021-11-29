@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { VictoryPie } from 'victory-native';
 import colors from '@themes/colors';
-import { PieContainer, Ratio, RatioContainer } from './styles';
+import { PieContainer, Ratio, RatioContainer, RatioTitle } from './styles';
 
 const graphicColor = [colors.kellyGreen, colors.sunsetOrange];
 
@@ -30,6 +30,7 @@ const Chart: React.FC<ChartProps> = ({ totalCount, correctAnswerCount, inCorrect
         labels={() => null}
       />
       <RatioContainer>
+        <RatioTitle>정답률</RatioTitle>
         <Ratio>{`${(correctAnswerCount / totalCount) * 100}%`}</Ratio>
       </RatioContainer>
     </PieContainer>

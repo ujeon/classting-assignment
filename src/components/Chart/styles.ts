@@ -15,6 +15,11 @@ export const RatioContainer = styled.View`
   justify-content: center;
 `;
 
+export const RatioTitle = styled.Text`
+  color: ${colors.darkGrey2};
+  font-size: 15px;
+`;
+
 export const Ratio = styled.Text`
   color: ${colors.darkGrey};
   font-size: 35px;
