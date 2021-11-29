@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useCallback } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import images from '@themes/images';
@@ -12,27 +12,28 @@ import RightIconTextLabel from '@components/RightIconTextLabel';
 import RectangleButton from '@components/RectangleButton';
 import { ButtonType } from '@components/RectangleButton/RectangleButton';
 import Space from '@components/Space';
+import Quiz from '@store/modules/quiz';
 
 interface NavigationProps {
   navigation: NativeStackNavigationProp<RootStackParamList, 'Home'>;
 }
 
 const QuizResult = ({ navigation }: NavigationProps) => {
-  const { questions, elapsedTime, inCorrectAnswerCount, correctAnswerCount } = useSelector(
+  const { elapsedTime, inCorrectAnswerCount, correctAnswerCount } = useSelector(
     (store: RootState) => store.quiz,
   );
 
-  useEffect(() => {
-    console.log({ elapsedTime });
-  }, [elapsedTime]);
+  const dispatch = useDispatch();
 
   const handleBackButton = useCallback(() => {
     navigation.goBack();
   }, [navigation]);
 
-  useEffect(() => {
-    console.log({ questions });
-  }, [questions]);
+  const handleRetryButton = useCallback(() => {
+    navigation.pop();
+    dispatch(Quiz.actions.retryQuiz());
+    dispatch(Quiz.actions.toggleQuizModal(true));
+  }, [dispatch, navigation]);
 
   return (
     <SafeAreaView>
@@ -46,7 +47,6 @@ const QuizResult = ({ navigation }: NavigationProps) => {
             inCorrectAnswerCount={inCorrectAnswerCount}
           />
         </ChartContainer>
-        <Space height="15px" />
         <RightIconTextLabel
           title="소요 시간"
           content={`${elapsedTime.hh}° ${elapsedTime.mm}' ${elapsedTime.ss}"`}
@@ -67,7 +67,13 @@ const QuizResult = ({ navigation }: NavigationProps) => {
           contentColor={colors.sunsetOrange}
           source={images.iconAssignmentInCorrect}
         />
-        <Space height="100px" />
+        <Space height="70px" />
+        <RectangleButton
+          type={ButtonType.secondary}
+          title="다시할래요"
+          onPress={handleRetryButton}
+        />
+        <Space height="20px" />
         <RectangleButton
           type={ButtonType.secondary}
           title="확인했어요!"

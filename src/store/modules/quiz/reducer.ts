@@ -49,6 +49,8 @@ const UPDATE_SELECTED_ANSWER = createAction('quiz/UPDATE_SELECTED_ANSWER');
 const UPDATE_CURRENT_QUESTION_INDEX = createAction('quiz/UPDATE_CURRENT_QUESTION_INDEX');
 const SET_END_TIME = createAction('quiz/SET_END_TIME');
 const COUNT_CORRECT_INCORRECT_ANSWERS = createAction('COUNT_CORRECT_INCORRECT_ANSWERS');
+const RETRY_QUIZ = createAction('RETRY_QUIZ');
+const TOGGLE_QUIZ_MODAL = createAction('TOGGLE_QUIZ_MODAL');
 
 export const fetch = createAsyncActionEntity<FetchRequest, FetchResponse, FetchError>(FETCH);
 export const updateSelectedAnswer = createActionEntity<SelectedAnswer>(UPDATE_SELECTED_ANSWER);
@@ -59,6 +61,8 @@ export const setEndTime = createActionEntity<number>(SET_END_TIME);
 export const countCorrectInCorrectAnswers = createActionEntity<null>(
   COUNT_CORRECT_INCORRECT_ANSWERS,
 );
+export const retryQuiz = createActionEntity<never>(RETRY_QUIZ);
+export const toggleQuizModal = createActionEntity<boolean>(TOGGLE_QUIZ_MODAL);
 
 const actions = {
   fetch,
@@ -66,6 +70,8 @@ const actions = {
   updateCurrQuestionIndex,
   setEndTime,
   countCorrectInCorrectAnswers,
+  retryQuiz,
+  toggleQuizModal,
 };
 
 interface QuizState {
@@ -77,6 +83,7 @@ interface QuizState {
   elapsedTime: HhMmSs;
   correctAnswerCount: number;
   inCorrectAnswerCount: number;
+  quizModalVisible: boolean;
 }
 
 const state: QuizState = {
@@ -88,6 +95,7 @@ const state: QuizState = {
   elapsedTime: { hh: '', mm: '', ss: '' },
   correctAnswerCount: 0,
   inCorrectAnswerCount: 0,
+  quizModalVisible: false,
 };
 
 const reducer = createCustomReducer(state, actions)
@@ -114,11 +122,9 @@ const reducer = createCustomReducer(state, actions)
     questions[questionIndex].isCorrect = questions[questionIndex].correct_answer === selectedOption;
     return { ...state, questions };
   })
-
   .handleAction(updateCurrQuestionIndex, (state, action) => {
     return { ...state, currQuestionIndex: action.payload.index };
   })
-
   .handleAction(setEndTime, (state, action) => {
     const endTime = action.payload;
     const { startTime } = { ...state };
@@ -140,6 +146,33 @@ const reducer = createCustomReducer(state, actions)
       message: '',
       startTime: 0,
       endTime: 0,
+      elapsedTime: { hh: '', mm: '', ss: '' },
+      correctAnswerCount: 0,
+      inCorrectAnswerCount: 0,
+    };
+  })
+  .handleAction(toggleQuizModal, (state, action) => {
+    return {
+      ...state,
+      quizModalVisible: action.payload,
+    };
+  })
+  .handleAction(retryQuiz, (state, action) => {
+    let { questions } = { ...state };
+    questions = _map(questions, ({ answers, isCorrect, ...properties }) => {
+      return {
+        ...properties,
+        isCorrect: false,
+        answers: _map(answers, ({ option }) => {
+          return { option, isSelected: false };
+        }),
+      };
+    });
+    return {
+      ...state,
+      questions,
+      currQuestionIndex: 0,
+      startTime: new Date().getTime(),
       elapsedTime: { hh: '', mm: '', ss: '' },
       correctAnswerCount: 0,
       inCorrectAnswerCount: 0,
