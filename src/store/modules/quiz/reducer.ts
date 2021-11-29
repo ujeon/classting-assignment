@@ -7,7 +7,14 @@ import {
 } from '@store/lib';
 import _map from 'lodash/map';
 import _countBy from 'lodash/countBy';
-import { FetchResponse, FetchRequest, FetchError } from '@apis/modules/quiz';
+import {
+  FetchResponse,
+  FetchRequest,
+  FetchError,
+  FetchRecordQuizRequest,
+  FetchRecordQuizResponse,
+  FetchRecordQuizError,
+} from '@apis/modules/quiz';
 import { formatQuestions } from '@utils/quiz';
 import { convertMilliToHhMmSs } from '@utils/common';
 
@@ -45,6 +52,8 @@ export interface HhMmSs {
 }
 
 const FETCH = createAsyncAction('quiz/FETCH');
+const FETCH_RECORD_QUIZ = createAsyncAction('quiz/FETCH_RECORD_QUIZ');
+
 const UPDATE_SELECTED_ANSWER = createAction('quiz/UPDATE_SELECTED_ANSWER');
 const UPDATE_CURRENT_QUESTION_INDEX = createAction('quiz/UPDATE_CURRENT_QUESTION_INDEX');
 const SET_END_TIME = createAction('quiz/SET_END_TIME');
@@ -53,6 +62,12 @@ const RETRY_QUIZ = createAction('RETRY_QUIZ');
 const TOGGLE_QUIZ_MODAL = createAction('TOGGLE_QUIZ_MODAL');
 
 export const fetch = createAsyncActionEntity<FetchRequest, FetchResponse, FetchError>(FETCH);
+export const fetchRecordQuiz = createAsyncActionEntity<
+  FetchRecordQuizRequest,
+  FetchRecordQuizResponse,
+  FetchRecordQuizError
+>(FETCH_RECORD_QUIZ);
+
 export const updateSelectedAnswer = createActionEntity<SelectedAnswer>(UPDATE_SELECTED_ANSWER);
 export const updateCurrQuestionIndex = createActionEntity<QuestionIndex>(
   UPDATE_CURRENT_QUESTION_INDEX,
@@ -66,6 +81,7 @@ export const toggleQuizModal = createActionEntity<boolean>(TOGGLE_QUIZ_MODAL);
 
 const actions = {
   fetch,
+  fetchRecordQuiz,
   updateSelectedAnswer,
   updateCurrQuestionIndex,
   setEndTime,
@@ -159,7 +175,7 @@ const reducer = createCustomReducer(state, actions)
   })
   .handleAction(retryQuiz, (state, action) => {
     let { questions } = { ...state };
-    questions = _map(questions, ({ answers, isCorrect, ...properties }) => {
+    questions = _map(questions, ({ answers, ...properties }) => {
       return {
         ...properties,
         isCorrect: false,

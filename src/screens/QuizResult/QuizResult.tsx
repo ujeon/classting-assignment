@@ -19,15 +19,16 @@ interface NavigationProps {
 }
 
 const QuizResult = ({ navigation }: NavigationProps) => {
-  const { elapsedTime, inCorrectAnswerCount, correctAnswerCount } = useSelector(
+  const { questions, elapsedTime, inCorrectAnswerCount, correctAnswerCount } = useSelector(
     (store: RootState) => store.quiz,
   );
 
   const dispatch = useDispatch();
 
   const handleBackButton = useCallback(() => {
+    dispatch(Quiz.actions.fetchRecordQuiz.request({ questions }));
     navigation.goBack();
-  }, [navigation]);
+  }, [navigation, dispatch, questions]);
 
   const handleRetryButton = useCallback(() => {
     navigation.pop();
