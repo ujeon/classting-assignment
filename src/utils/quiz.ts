@@ -1,6 +1,8 @@
 import _map from 'lodash/map';
 import _shuffle from 'lodash/shuffle';
 import _sortBy from 'lodash/sortBy';
+import _filter from 'lodash/filter';
+import _find from 'lodash/find';
 import { QuestionType, Answer, Question } from '@store/modules/quiz/reducer';
 
 const createAnswers = (
@@ -30,5 +32,24 @@ export const formatQuestions = (questions: Question[]): Question[] => {
     question.answers = answers;
 
     return question;
+  });
+};
+
+interface QuizRecord {
+  question: string;
+  correct_answer: string;
+  selected_answer: string;
+  category: string;
+}
+
+export const createWrongAnswersRecord = (questions: Question[]): QuizRecord[] => {
+  const wrongAnswers: Question[] = _filter(questions, ({ isCorrect }) => !isCorrect);
+  return _map(wrongAnswers, ({ question, correct_answer, answers, category }) => {
+    return {
+      category,
+      question,
+      correct_answer,
+      selected_answer: _find(answers, ({ isSelected }) => isSelected)?.option ?? '',
+    };
   });
 };

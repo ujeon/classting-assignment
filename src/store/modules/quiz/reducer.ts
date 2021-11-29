@@ -7,7 +7,17 @@ import {
 } from '@store/lib';
 import _map from 'lodash/map';
 import _countBy from 'lodash/countBy';
-import { FetchResponse, FetchRequest, FetchError } from '@apis/modules/quiz';
+import {
+  FetchResponse,
+  FetchRequest,
+  FetchError,
+  FetchRecordQuizRequest,
+  FetchRecordQuizResponse,
+  FetchRecordQuizError,
+  FetchGetRecordQuizRequest,
+  FetchGetRecordQuizResponse,
+  FetchGetRecordQuizError,
+} from '@apis/modules/quiz';
 import { formatQuestions } from '@utils/quiz';
 import { convertMilliToHhMmSs } from '@utils/common';
 
@@ -44,7 +54,18 @@ export interface HhMmSs {
   ss: string;
 }
 
+export interface QuizRecord {
+  correct_answer: string;
+  question: string;
+  selected_answer: string;
+  userId: string;
+  category: string;
+}
+
 const FETCH = createAsyncAction('quiz/FETCH');
+const FETCH_RECORD_QUIZ = createAsyncAction('quiz/FETCH_RECORD_QUIZ');
+const FETCH_GET_RECORD_QUIZ = createAsyncAction('quiz/FETCH_GET_RECORD_QUIZ');
+
 const UPDATE_SELECTED_ANSWER = createAction('quiz/UPDATE_SELECTED_ANSWER');
 const UPDATE_CURRENT_QUESTION_INDEX = createAction('quiz/UPDATE_CURRENT_QUESTION_INDEX');
 const SET_END_TIME = createAction('quiz/SET_END_TIME');
@@ -53,6 +74,17 @@ const RETRY_QUIZ = createAction('RETRY_QUIZ');
 const TOGGLE_QUIZ_MODAL = createAction('TOGGLE_QUIZ_MODAL');
 
 export const fetch = createAsyncActionEntity<FetchRequest, FetchResponse, FetchError>(FETCH);
+export const fetchRecordQuiz = createAsyncActionEntity<
+  FetchRecordQuizRequest,
+  FetchRecordQuizResponse,
+  FetchRecordQuizError
+>(FETCH_RECORD_QUIZ);
+export const fetchGetRecordQuiz = createAsyncActionEntity<
+  FetchGetRecordQuizRequest,
+  FetchGetRecordQuizResponse,
+  FetchGetRecordQuizError
+>(FETCH_GET_RECORD_QUIZ);
+
 export const updateSelectedAnswer = createActionEntity<SelectedAnswer>(UPDATE_SELECTED_ANSWER);
 export const updateCurrQuestionIndex = createActionEntity<QuestionIndex>(
   UPDATE_CURRENT_QUESTION_INDEX,
@@ -66,6 +98,8 @@ export const toggleQuizModal = createActionEntity<boolean>(TOGGLE_QUIZ_MODAL);
 
 const actions = {
   fetch,
+  fetchRecordQuiz,
+  fetchGetRecordQuiz,
   updateSelectedAnswer,
   updateCurrQuestionIndex,
   setEndTime,
@@ -84,6 +118,7 @@ interface QuizState {
   correctAnswerCount: number;
   inCorrectAnswerCount: number;
   quizModalVisible: boolean;
+  quizRecord: QuizRecord[];
 }
 
 const state: QuizState = {
@@ -96,10 +131,12 @@ const state: QuizState = {
   correctAnswerCount: 0,
   inCorrectAnswerCount: 0,
   quizModalVisible: false,
+  quizRecord: [] as QuizRecord[],
 };
 
 const reducer = createCustomReducer(state, actions)
   .handleAction(fetch.success, (state, action) => {
+    console.log({ action });
     return {
       ...state,
       questions: formatQuestions(action.payload.results),
@@ -157,9 +194,12 @@ const reducer = createCustomReducer(state, actions)
       quizModalVisible: action.payload,
     };
   })
+  .handleAction(fetchGetRecordQuiz.success, (state, action) => {
+    return { ...state, quizRecord: action.payload.results };
+  })
   .handleAction(retryQuiz, (state, action) => {
     let { questions } = { ...state };
-    questions = _map(questions, ({ answers, isCorrect, ...properties }) => {
+    questions = _map(questions, ({ answers, ...properties }) => {
       return {
         ...properties,
         isCorrect: false,

@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import { View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -31,9 +31,14 @@ const Home = ({ navigation }: NavigationProps) => {
     navigation.navigate('QuizResult');
   }, [navigation]);
 
+  const moveQuizRecordScreen = useCallback(() => {
+    navigation.navigate('QuizRecord');
+  }, [navigation]);
+
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <LeftIconButton source={images.iconPencil} title="퀴즈 시작" onPress={openQuizModal} />
+      <LeftIconButton source={images.iconCheck} title="오답 노트" onPress={moveQuizRecordScreen} />
       <QuizModal
         visible={quizModalVisible}
         hideModal={hideQuizModal}
