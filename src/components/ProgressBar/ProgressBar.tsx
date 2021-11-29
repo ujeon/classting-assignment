@@ -14,13 +14,13 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ progress = 0 }) => {
     Animated.timing(progressAnimation, {
       useNativeDriver: true,
       toValue: { x: 250 * progress, y: 0 },
-      duration: 1500,
+      duration: 300,
     }).start();
 
     Animated.timing(leftPaddingAnimation, {
       useNativeDriver: true,
       toValue: { x: progress ? 0 : -10, y: 0 },
-      duration: progress ? 1500 : 2000,
+      duration: progress ? 300 : 500,
     }).start();
   }, [progress, progressAnimation, leftPaddingAnimation]);
 
