@@ -126,7 +126,7 @@ const reducer = createCustomReducer(state, actions)
     return { ...state, endTime, elapsedTime };
   })
   .handleAction(countCorrectInCorrectAnswers, (state, action) => {
-    const { true: correctAnswerCount, false: inCorrectAnswerCount } = _countBy(
+    const { true: correctAnswerCount = 0, false: inCorrectAnswerCount = 0 } = _countBy(
       [...state.questions],
       (question) => question.isCorrect,
     );
