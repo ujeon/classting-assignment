@@ -4,6 +4,7 @@ import iconLeftArrow from '../assets/icon-left-arrow.png';
 import iconTiming from '../assets/icon-timing.png';
 import iconAssignmentCorrect from '../assets/icon-assignment-correct.png';
 import iconAssignmentInCorrect from '../assets/icon-assignment-incorrect.png';
+import iconCheck from '../assets/icon-check.png';
 
 const images = {
   iconPencil,
@@ -12,6 +13,7 @@ const images = {
   iconTiming,
   iconAssignmentCorrect,
   iconAssignmentInCorrect,
+  iconCheck,
 };
 
 export default images;
