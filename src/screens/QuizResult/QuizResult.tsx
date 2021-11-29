@@ -4,12 +4,13 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import images from '@themes/images';
 import { RootStackParamList } from 'Router';
+import { Container, ChartContainer, Title } from './styles';
 import { RootState } from '@store/index';
-import RightIconTextLabel from '@components/RightIconTextLabel';
 import colors from '@themes/colors';
+import Chart from '@components/Chart';
+import RightIconTextLabel from '@components/RightIconTextLabel';
 import RectangleButton from '@components/RectangleButton';
 import { ButtonType } from '@components/RectangleButton/RectangleButton';
-import { Container } from './styles';
 import Space from '@components/Space';
 
 interface NavigationProps {
@@ -36,6 +37,16 @@ const QuizResult = ({ navigation }: NavigationProps) => {
   return (
     <SafeAreaView>
       <Container>
+        <Space height="20px" />
+        <Title>퀴즈 완료!</Title>
+        <ChartContainer>
+          <Chart
+            totalCount={correctAnswerCount + inCorrectAnswerCount}
+            correctAnswerCount={correctAnswerCount}
+            inCorrectAnswerCount={inCorrectAnswerCount}
+          />
+        </ChartContainer>
+        <Space height="15px" />
         <RightIconTextLabel
           title="소요 시간"
           content={`${elapsedTime.hh}° ${elapsedTime.mm}' ${elapsedTime.ss}"`}
@@ -44,14 +55,14 @@ const QuizResult = ({ navigation }: NavigationProps) => {
         />
         <Space height="24px" />
         <RightIconTextLabel
-          title="정답"
+          title="정답 수"
           content={`${correctAnswerCount}개`}
           contentColor={colors.kellyGreen}
           source={images.iconAssignmentCorrect}
         />
         <Space height="24px" />
         <RightIconTextLabel
-          title="오답"
+          title="오답 수"
           content={`${inCorrectAnswerCount}개`}
           contentColor={colors.sunsetOrange}
           source={images.iconAssignmentInCorrect}
