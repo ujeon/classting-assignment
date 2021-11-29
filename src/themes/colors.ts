@@ -19,6 +19,7 @@ const colors = {
   palePink: '#FCDEE0',
   australianMint: '#D6FEB8',
   heliotrope: '#CF86FF',
+  goldenPoppy: '#FAC502',
 };
 
 export default colors;
