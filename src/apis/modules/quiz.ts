@@ -51,10 +51,10 @@ const fetchRecordQuiz = async (
       userUniqueId = prevUserUniqueId;
     }
     const wrongAnswerRecord = createWrongAnswersRecord(payload.questions);
-    _forEach(wrongAnswerRecord, ({ question, correct_answer, selected_answer }) => {
+    _forEach(wrongAnswerRecord, ({ question, correct_answer, selected_answer, category }) => {
       firestore()
         .collection('records')
-        .add({ userId: userUniqueId, question, correct_answer, selected_answer })
+        .add({ userId: userUniqueId, question, correct_answer, selected_answer, category })
         .then((snapshot) => snapshot)
         .catch(() => {
           throw new Error('서버 요청 중 오류가 발생하였습니다.');

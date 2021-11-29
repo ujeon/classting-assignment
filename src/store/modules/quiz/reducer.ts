@@ -59,6 +59,7 @@ export interface QuizRecord {
   question: string;
   selected_answer: string;
   userId: string;
+  category: string;
 }
 
 const FETCH = createAsyncAction('quiz/FETCH');
@@ -130,7 +131,7 @@ const state: QuizState = {
   correctAnswerCount: 0,
   inCorrectAnswerCount: 0,
   quizModalVisible: false,
-  quizRecord: [{ correct_answer: '', question: '', selected_answer: '', userId: '' }],
+  quizRecord: [] as QuizRecord[],
 };
 
 const reducer = createCustomReducer(state, actions)

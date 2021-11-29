@@ -39,12 +39,14 @@ interface QuizRecord {
   question: string;
   correct_answer: string;
   selected_answer: string;
+  category: string;
 }
 
 export const createWrongAnswersRecord = (questions: Question[]): QuizRecord[] => {
   const wrongAnswers: Question[] = _filter(questions, ({ isCorrect }) => !isCorrect);
-  return _map(wrongAnswers, ({ question, correct_answer, answers }) => {
+  return _map(wrongAnswers, ({ question, correct_answer, answers, category }) => {
     return {
+      category,
       question,
       correct_answer,
       selected_answer: _find(answers, ({ isSelected }) => isSelected)?.option ?? '',
