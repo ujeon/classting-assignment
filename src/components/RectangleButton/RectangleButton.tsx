@@ -3,6 +3,7 @@ import { ButtonContainer, Button, ButtonShadow, Title } from './styles';
 
 export enum ButtonType {
   primary,
+  secondary,
   danger,
 }
 

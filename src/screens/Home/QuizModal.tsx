@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo, useEffect } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import { Modal, FlatList } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -16,14 +16,15 @@ import { Answer } from '@store/modules/quiz/reducer';
 interface QuizModalProps {
   visible: boolean;
   hideModal: () => void;
+  moveQuizResultScreen: () => void;
 }
 
-const QuizModal: React.FC<QuizModalProps> = ({ visible, hideModal }) => {
+const QuizModal: React.FC<QuizModalProps> = ({ visible, hideModal, moveQuizResultScreen }) => {
+  const { questions, currQuestionIndex } = useSelector((store: RootState) => store.quiz);
   const [resultModalVisible, setResultModalVisible] = useState(false);
   const [isCorrectAnswer, setIsCorrectAnswer] = useState(false);
 
   const dispatch = useDispatch();
-  const { questions, currQuestionIndex } = useSelector((store: RootState) => store.quiz);
 
   const updateSelectedOption = useCallback(
     (selectedOption: string) => {
@@ -78,8 +79,11 @@ const QuizModal: React.FC<QuizModalProps> = ({ visible, hideModal }) => {
       hideModal();
       setResultModalVisible(false);
       setIsCorrectAnswer(false);
+      moveQuizResultScreen();
+      dispatch(Quiz.actions.setEndTime(new Date().getTime()));
+      dispatch(Quiz.actions.countCorrectInCorrectAnswers(null));
     }
-  }, [currQuestionIndex, questions, hideModal, dispatch]);
+  }, [currQuestionIndex, questions, hideModal, dispatch, moveQuizResultScreen]);
 
   const $cancelButton = useMemo(
     () => <IconButton source={images.iconCancel} onPress={handleBackButton} />,
