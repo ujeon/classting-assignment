@@ -1,7 +1,8 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import LottieView from 'lottie-react-native';
+import SplashScreen from 'react-native-splash-screen';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import images from '@themes/images';
 import LeftIconButton from '@components/LeftIconButton';
@@ -20,6 +21,12 @@ const Home = ({ navigation }: NavigationProps) => {
   const { quizModalVisible } = useSelector((store: RootState) => store.quiz);
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    setTimeout(() => {
+      SplashScreen.hide();
+    }, 1500);
+  }, []);
 
   const openQuizModal = useCallback(() => {
     dispatch(Quiz.actions.fetch.request(''));
