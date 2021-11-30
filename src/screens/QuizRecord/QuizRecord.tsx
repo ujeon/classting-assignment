@@ -76,7 +76,11 @@ const QuizRecord = ({ navigation }: NavigationProps) => {
       <Title>오답 노트</Title>
       <Container>
         <CardList>
-          <FlatList data={quizRecord} renderItem={renderMultipleChoiceOptions} />
+          <FlatList
+            data={quizRecord}
+            renderItem={renderMultipleChoiceOptions}
+            contentContainerStyle={{ paddingBottom: 130 }}
+          />
         </CardList>
       </Container>
     </SafeAreaView>
