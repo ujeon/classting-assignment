@@ -7,3 +7,6 @@ export const convertMilliToHhMmSs = (milliseconds: number): HhMmSs => {
     ss: (Math.floor(milliseconds / 1000) % 60).toString(),
   };
 };
+
+export const decodeHtmlEntity = (string: string): string =>
+  string.replace(/&quot;/g, '"').replace(/&#039;/g, "'");
