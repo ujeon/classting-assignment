@@ -38,8 +38,11 @@ const QuizResult = ({ navigation }: NavigationProps) => {
 
   return (
     <SafeAreaView>
-      <Container>
-        <Space height="20px" />
+      <Container
+        contentContainerStyle={{
+          paddingVertical: 55,
+        }}
+      >
         <Title>퀴즈 완료!</Title>
         <ChartContainer>
           <Chart
