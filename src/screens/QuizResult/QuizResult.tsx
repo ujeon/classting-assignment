@@ -34,6 +34,7 @@ const QuizResult = ({ navigation }: NavigationProps) => {
     navigation.pop();
     dispatch(Quiz.actions.retryQuiz());
     dispatch(Quiz.actions.toggleQuizModal(true));
+    dispatch(Quiz.actions.updateQuizComplete(false));
   }, [dispatch, navigation]);
 
   return (

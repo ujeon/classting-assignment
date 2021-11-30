@@ -83,7 +83,6 @@ const fetchGetRecordQuiz = async (): Promise<FetchGetRecordQuizResponse> => {
         throw new Error('서버 요청 중 오류가 발생하였습니다.');
       });
   }
-  console.log({ results });
   return { results };
 };
 

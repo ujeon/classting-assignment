@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect } from 'react';
+import { Alert } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import LottieView from 'lottie-react-native';
@@ -18,7 +19,9 @@ interface NavigationProps {
 }
 
 const Home = ({ navigation }: NavigationProps) => {
-  const { quizModalVisible } = useSelector((store: RootState) => store.quiz);
+  const { quizModalVisible, questions, currQuestionIndex, isComplete } = useSelector(
+    (store: RootState) => store.quiz,
+  );
 
   const dispatch = useDispatch();
 
@@ -28,10 +31,37 @@ const Home = ({ navigation }: NavigationProps) => {
     }, 1500);
   }, []);
 
-  const openQuizModal = useCallback(() => {
+  const requestNewQuiz = useCallback(() => {
+    dispatch(Quiz.actions.updateQuizComplete(false));
     dispatch(Quiz.actions.fetch.request(''));
     dispatch(Quiz.actions.toggleQuizModal(true));
   }, [dispatch]);
+
+  const continuePrevQuiz = useCallback(() => {
+    dispatch(Quiz.actions.toggleQuizModal(true));
+  }, [dispatch]);
+
+  const checkPrevQuizExist = useCallback(() => {
+    return questions.length > 0 && currQuestionIndex < questions.length && !isComplete;
+  }, [currQuestionIndex, questions.length, isComplete]);
+
+  const openQuizModal = useCallback(() => {
+    if (checkPrevQuizExist()) {
+      Alert.alert('풀던 퀴즈가 있어요!', '퀴즈를 이어서 풀어볼까요? 🤗', [
+        {
+          text: '아니요',
+          onPress: () => requestNewQuiz(),
+          style: 'cancel',
+        },
+        {
+          text: '네',
+          onPress: () => continuePrevQuiz(),
+        },
+      ]);
+    } else {
+      requestNewQuiz();
+    }
+  }, [requestNewQuiz, continuePrevQuiz, checkPrevQuizExist]);
 
   const hideQuizModal = useCallback(() => {
     dispatch(Quiz.actions.toggleQuizModal(false));

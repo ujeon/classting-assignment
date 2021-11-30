@@ -47,10 +47,20 @@ const QuizRecord = ({ navigation }: NavigationProps) => {
         <QuestionTitle>{item.question}</QuestionTitle>
         <Space height="18px" />
         <AnswerLabel>내가 선택한 답</AnswerLabel>
-        <MultipleChoiceOption selected={false} contents={item.selected_answer} onPress={() => {}} />
+        <MultipleChoiceOption
+          selected={false}
+          contents={item.selected_answer}
+          onPress={() => {}}
+          disabled
+        />
         <Space height="18px" />
         <AnswerLabel>정답</AnswerLabel>
-        <MultipleChoiceOption selected={true} contents={item.correct_answer} onPress={() => {}} />
+        <MultipleChoiceOption
+          selected={true}
+          contents={item.correct_answer}
+          onPress={() => {}}
+          disabled
+        />
       </Card>
     );
   }, []);

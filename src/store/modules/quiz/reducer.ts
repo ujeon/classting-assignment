@@ -72,6 +72,7 @@ const SET_END_TIME = createAction('quiz/SET_END_TIME');
 const COUNT_CORRECT_INCORRECT_ANSWERS = createAction('COUNT_CORRECT_INCORRECT_ANSWERS');
 const RETRY_QUIZ = createAction('RETRY_QUIZ');
 const TOGGLE_QUIZ_MODAL = createAction('TOGGLE_QUIZ_MODAL');
+const UPDATE_QUIZ_COMPLETE = createAction('UPDATE_QUIZ_COMPLETE');
 
 export const fetch = createAsyncActionEntity<FetchRequest, FetchResponse, FetchError>(FETCH);
 export const fetchRecordQuiz = createAsyncActionEntity<
@@ -95,6 +96,7 @@ export const countCorrectInCorrectAnswers = createActionEntity<null>(
 );
 export const retryQuiz = createActionEntity<never>(RETRY_QUIZ);
 export const toggleQuizModal = createActionEntity<boolean>(TOGGLE_QUIZ_MODAL);
+export const updateQuizComplete = createActionEntity<boolean>(UPDATE_QUIZ_COMPLETE);
 
 const actions = {
   fetch,
@@ -106,6 +108,7 @@ const actions = {
   countCorrectInCorrectAnswers,
   retryQuiz,
   toggleQuizModal,
+  updateQuizComplete,
 };
 
 interface QuizState {
@@ -119,6 +122,7 @@ interface QuizState {
   inCorrectAnswerCount: number;
   quizModalVisible: boolean;
   quizRecord: QuizRecord[];
+  isComplete: boolean;
 }
 
 const state: QuizState = {
@@ -132,11 +136,11 @@ const state: QuizState = {
   inCorrectAnswerCount: 0,
   quizModalVisible: false,
   quizRecord: [] as QuizRecord[],
+  isComplete: false,
 };
 
 const reducer = createCustomReducer(state, actions)
   .handleAction(fetch.success, (state, action) => {
-    console.log({ action });
     return {
       ...state,
       questions: formatQuestions(action.payload.results),
@@ -196,6 +200,9 @@ const reducer = createCustomReducer(state, actions)
   })
   .handleAction(fetchGetRecordQuiz.success, (state, action) => {
     return { ...state, quizRecord: action.payload.results };
+  })
+  .handleAction(updateQuizComplete, (state, action) => {
+    return { ...state, isComplete: action.payload };
   })
   .handleAction(retryQuiz, (state, action) => {
     let { questions } = { ...state };
