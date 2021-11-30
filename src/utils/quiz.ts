@@ -4,6 +4,7 @@ import _sortBy from 'lodash/sortBy';
 import _filter from 'lodash/filter';
 import _find from 'lodash/find';
 import { QuestionType, Answer, Question } from '@store/modules/quiz/reducer';
+import { decodeHtmlEntity } from './common';
 
 const createAnswers = (
   type: QuestionType,
@@ -12,7 +13,7 @@ const createAnswers = (
 ): Answer[] => {
   const tempAnswers = [...incorrectAnswers, correctAnswer];
   let answers: Answer[] = _map(tempAnswers, (answer): Answer => {
-    return { option: answer, isSelected: false };
+    return { option: decodeHtmlEntity(answer), isSelected: false };
   });
   if (type === 'multiple') {
     answers = _shuffle(answers);
@@ -24,6 +25,10 @@ const createAnswers = (
 
 export const formatQuestions = (questions: Question[]): Question[] => {
   return _map(questions, (question: Question) => {
+    question.question = decodeHtmlEntity(question.question);
+    question.category = decodeHtmlEntity(question.category);
+    question.correct_answer = decodeHtmlEntity(question.correct_answer);
+
     const answers: Answer[] = createAnswers(
       question.type,
       question.correct_answer,
