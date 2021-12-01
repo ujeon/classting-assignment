@@ -1,0 +1,82 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[MultipleChoiceOption] render: 1`] = `
+<View
+  accessibilityState={
+    Object {
+      "disabled": false,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  nativeID="animatedComponent"
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "alignItems": "center",
+      "justifyContent": "center",
+      "marginTop": 10,
+      "opacity": 1,
+      "width": "100%",
+    }
+  }
+>
+  <View
+    selected={true}
+    style={
+      Array [
+        Object {
+          "backgroundColor": "#DDF4FF",
+          "borderColor": "#83D7FE",
+          "borderRadius": 12,
+          "borderStyle": "solid",
+          "borderWidth": 1,
+          "justifyContent": "center",
+          "minHeight": 50,
+          "paddingBottom": 5,
+          "paddingLeft": 13,
+          "paddingRight": 13,
+          "paddingTop": 5,
+          "width": "100%",
+          "zIndex": 10,
+        },
+      ]
+    }
+  >
+    <Text
+      selected={true}
+      style={
+        Array [
+          Object {
+            "color": "#3CAFF5",
+          },
+        ]
+      }
+    >
+      테스트 문구
+    </Text>
+  </View>
+  <View
+    selected={true}
+    style={
+      Array [
+        Object {
+          "backgroundColor": "#83D7FE",
+          "borderRadius": 12,
+          "minHeight": 50,
+          "position": "absolute",
+          "top": 3,
+          "width": "100%",
+        },
+      ]
+    }
+  />
+</View>
+`;

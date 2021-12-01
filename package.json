@@ -80,6 +80,9 @@
       "jsx",
       "json",
       "node"
+    ],
+    "transformIgnorePatterns": [
+      "node_modules/(?!victory-native)/"
     ]
   },
   "lint-staged": {
