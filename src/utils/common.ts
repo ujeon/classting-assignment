@@ -1,4 +1,5 @@
 import { HhMmSs } from '@store/modules/quiz/reducer';
+import { decode } from 'html-entities';
 
 export const convertMilliToHhMmSs = (milliseconds: number): HhMmSs => {
   return {
@@ -8,5 +9,4 @@ export const convertMilliToHhMmSs = (milliseconds: number): HhMmSs => {
   };
 };
 
-export const decodeHtmlEntity = (string: string): string =>
-  string.replace(/&quot;/g, '"').replace(/&#039;/g, "'");
+export const decodeHtmlEntity = (string: string): string => decode(string, { level: 'html5' });
