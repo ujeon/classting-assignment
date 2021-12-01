@@ -2,6 +2,15 @@
 
 [Trivia](https://opentdb.com/api_config.php)에서 무작위로 10개의 질문 리스트를 받아와 사용자가 퀴즈를 풀 수 있도록 구현한 앱입니다.
 
+## 스크린샷
+![IMG_3346](https://user-images.githubusercontent.com/47589599/144188277-d17d3b15-986d-4cb1-acbb-98a3063e5fe7.png)
+![IMG_3347](https://user-images.githubusercontent.com/47589599/144188282-f091b10c-78f6-4ae9-9c9b-f64ab1bbbafe.png)
+![IMG_3348](https://user-images.githubusercontent.com/47589599/144188283-7e2e2537-7c51-4265-bf1c-c3071be0f091.png)
+![IMG_3349](https://user-images.githubusercontent.com/47589599/144188285-f0bcb38b-e1c4-4963-aeab-9a5923ddd332.png)
+![IMG_3350](https://user-images.githubusercontent.com/47589599/144188290-94b3e306-c4cf-4969-a8ee-5b83cf7e362e.png)
+![IMG_3351](https://user-images.githubusercontent.com/47589599/144188294-93dfc662-f496-43ac-ad58-30074d6c18ac.png)
+![IMG_3352](https://user-images.githubusercontent.com/47589599/144188298-7b1c7859-03a8-4018-b272-be26c4817f12.png)
+
 ## 구현 기능
 
 - '퀴즈 시작' 버튼을 클릭하여 퀴즈풀이를 시작할 수 있습니다.
