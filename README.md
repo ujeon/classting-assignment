@@ -52,9 +52,18 @@ root
 
 ## 실행 🏃‍♀️
 
-디펜던시 설치 후, `yarn ios` 혹은 `yarn android` 명령을 사용하여 프로젝트를 실행합니다.
+프로젝트 클론 후 [개발 환경 을 설정 한 다음](https://reactnative.dev/docs/environment-setup) 아래 명령을 사용하여 프로젝트를 실행합니다.
+
+**ios :**
 
 ```sh
 $ yarn install
-$ yarn ios 혹은 yarn android
+$ cd ios && pod install && cd ..
+$ yarn ios
+```
+
+**android :**
+```sh
+$ yarn install
+$ yarn android
 ```
